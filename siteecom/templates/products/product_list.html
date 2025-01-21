@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Collections | Corro{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <h3>Catégories</h3>
+        <ul class="list-group">
+            <li class="list-group-item {% if not category %}active{% endif %}">
+                <a href="{% url 'product_list' %}" class="text-decoration-none {% if not category %}text-white{% endif %}">
+                    Toutes les collections
+                </a>
+            </li>
+            {% for c in categories %}
+            <li class="list-group-item {% if category.slug == c.slug %}active{% endif %}">
+                <a href="{{ c.get_absolute_url }}" class="text-decoration-none {% if category.slug == c.slug %}text-white{% endif %}">
+                    {{ c.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.price }} €</p>
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-primary">Voir détails</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

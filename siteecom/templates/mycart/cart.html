@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Votre Panier | Corro{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Votre Panier</h2>
+    
+    {% if cart.items.all %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix unitaire</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.items.all %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 50px; margin-right: 15px;">
+                            <span>{{ item.product.name }}</span>
+                        </div>
+                    </td>
+                    <td>{{ item.product.price }} €</td>
+                    <td>
+                        <form method="post" action="{% url 'mycart:cart_update' item.product.id %}" class="quantity-form">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control" style="width: 80px;">
+                        </form>
+                    </td>
+                    <td>{{ item.get_cost }} €</td>
+                    <td>
+                        <a href="{% url 'mycart:cart_remove' item.product.id %}" class="btn btn-outline-danger btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right"><strong>Total</strong></td>
+                    <td><strong>{{ cart.get_total_price }} €</strong></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'product_list' %}" class="btn btn-outline-dark">
+            Continuer les achats
+        </a>
+        <a href="#" class="btn btn-dark">
+            Passer la commande
+        </a>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <p class="lead">Votre panier est vide</p>
+        <a href="{% url 'product_list' %}" class="btn btn-dark mt-3">
+            Découvrir nos produits
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.quantity-form input').forEach(input => {
+    input.addEventListener('change', function() {
+        this.closest('form').submit();
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

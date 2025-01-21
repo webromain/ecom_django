@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} | Corro{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+        </div>
+        <div class="col-md-6">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Collections</a></li>
+                    <li class="breadcrumb-item active">{{ product.name }}</li>
+                </ol>
+            </nav>
+            <h2>{{ product.name }}</h2>
+            <p class="text-muted">{{ product.category.name }}</p>
+            <p class="lead">{{ product.description }}</p>
+            <h4 class="price">{{ product.price }} €</h4>
+            <form action="{% url 'mycart:cart_add' product.id %}" method="post" class="mb-4">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-dark btn-lg">Ajouter au panier</button>
+            </form>
+            
+            <div class="product-details mt-4">
+                <h5>Détails du produit</h5>
+                <ul class="list-unstyled">
+                    <li><strong>Catégorie:</strong> {{ product.category.name }}</li>
+                    <li><strong>Disponibilité:</strong> {% if product.stock > 0 %}En stock{% else %}Rupture de stock{% endif %}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% if related_products %}
+    <section class="related-products mt-5">
+        <h3 class="mb-4">Produits similaires</h3>
+        <div class="row">
+            {% for related in related_products %}
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img src="{{ related.image.url }}" class="img-fluid" alt="{{ related.name }}">
+                    <div class="product-info">
+                        <h5>{{ related.name }}</h5>
+                        <p class="price">{{ related.price }} €</p>
+                        <a href="{{ related.get_absolute_url }}" class="btn btn-outline-dark">Voir détails</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %} 
