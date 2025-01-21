@@ -1,11 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=*, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div><h1>dlskjqflmk</h1></div>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Corro - Élégance Intemporelle{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: #343a40;">
+    <div class="hero-content text-center">
+        <h1 class="display-3 mb-4">CORRO</h1>
+        <p class="lead mb-4">L'élégance intemporelle de l'héritage vestimentaire</p>
+        <a href="{% url 'product_list' %}" class="btn btn-outline-light btn-lg">Découvrir la Collection</a>
+    </div>
+</div>
+
+{% if featured_product %}
+<section class="featured-product py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Notre Pièce Maîtresse</h2>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="{{ featured_product.image.url }}" alt="{{ featured_product.name }}" class="img-fluid featured-image">
+            </div>
+            <div class="col-md-6">
+                <h3>{{ featured_product.name }}</h3>
+                <p class="lead">{{ featured_product.description }}</p>
+                <p class="price">{{ featured_product.price }} €</p>
+                <a href="{{ featured_product.get_absolute_url }}" class="btn btn-dark btn-lg">Découvrir</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="features-section py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="fas fa-crown mb-3"></i>
+                    <h4>Qualité Premium</h4>
+                    <p>Des matériaux nobles sélectionnés avec soin</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="fas fa-history mb-3"></i>
+                    <h4>Style Intemporel</h4>
+                    <p>Des designs qui traversent les époques</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="fas fa-leaf mb-3"></i>
+                    <h4>Éthique</h4>
+                    <p>Une production responsable et durable</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if latest_products %}
+<section class="latest-products py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Notre Collection</h2>
+        <div class="row">
+            {% for product in latest_products %}
+            <div class="col-md-3 mb-4">
+                <div class="product-card">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+                    {% endif %}
+                    <div class="product-info">
+                        <h5>{{ product.name }}</h5>
+                        <p class="price">{{ product.price }} €</p>
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-outline-dark">Voir détails</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %} 
