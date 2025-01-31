@@ -55,9 +55,9 @@ body {
 /* Hero Section */
 .hero-section {
     height: 80vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero-bg.jpg');
-    background-size: cover;
-    background-position: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/media/background.webp'), no-repeat;
+    background-size: 100% 100%;
+    background-position: 50% 50%;
     display: flex;
     align-items: center;
     justify-content: center;

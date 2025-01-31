@@ -1,9 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
-
-# Create your views here.
 
 def home(request):
     featured_product = Product.objects.filter(name__icontains='Cambridge').first()
