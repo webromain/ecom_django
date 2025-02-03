@@ -1,4 +1,3 @@
-/* Styles de base pour le site */
 .navbar-brand {
     font-weight: bold;
     text-transform: uppercase;
@@ -35,6 +34,34 @@ body {
 
 .card-title {
     font-weight: bold;
+}
+
+.list-group-item a{
+    color: #343a40 !important;
+}
+
+.list-group-item.active a{
+    color: white !important;
+}
+
+.list-group-item.active{
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
+}
+
+.card-body a{
+    background-color: white !important;
+    border-color: #343a40 !important;
+    color: #343a40 !important;
+}
+
+.card-body a:hover{
+    background-color: #343a40 !important;
+    color: white !important;
+}
+
+.breadcrumb-item a{
+    color: #343a40 !important;
 }
 
 .btn-dark {
