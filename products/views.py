@@ -22,6 +22,11 @@ def product_list(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
     
+    if request.method == "GET":
+        research = request.GET.get('research')
+        if research is not None:
+            products = products.filter(name__icontains=research)
+    
     return render(request, 'products/product_list.html', {
         'category': category,
         'categories': categories,

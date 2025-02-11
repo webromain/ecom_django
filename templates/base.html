@@ -26,6 +26,9 @@
                         <a class="nav-link" href="{% url 'mycart:cart_detail' %}">Panier</a>
                     </li>
                 </ul>
+                <form class="form-inline my-2 my-lg-0 navbar-nav ms-auto" action="{% url 'product_list' %}" method="get">
+                    <input class="form-control mr-sm-2 nav-item" type="search" name="research" id="research" placeholder="Rechercher">
+                </form>
             </div>
         </div>
     </nav>
