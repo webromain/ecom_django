@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<center>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success text-center">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <br>
+  <h2 class="text-center mb-4">Login</h2>
+  <form method="POST" action="{% url 'login' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+      <input type="username" name="username" placeholder="Enter your username">
+    </div>
+    <div class="mb-3">
+      <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
+      <input type="password" name="password" placeholder="Enter your password">
+    </div>
+    <button type="submit" class="btn btn-dark">Login</button>
+  </form>
+  <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+</center>
+{% endblock %} 

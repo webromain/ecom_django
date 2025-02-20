@@ -1,5 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product
+
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from .forms import User, UserForm
+
+from django.contrib import messages
 
 def home(request):
     featured_product = Product.objects.filter(name__icontains='Cambridge').first()
@@ -40,4 +46,35 @@ def product_detail(request, slug):
     return render(request, 'products/product_detail.html', {
         'product': product,
         'related_products': related_products
-    }) 
+    })
+
+def register_(request):
+    form = UserForm()
+    if request.method == 'POST':
+        form = UserForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your account is created !")
+            return redirect('login')
+    return render(request, 'logreg/register.html', {'form':form})
+
+def log_in(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.is_active:
+            login(request, user)
+            messages.success(request, "You are connected !")
+            return redirect('product_list')
+        else:
+            messages.error(request, "Your email or your password are incorrect")
+    return render(request, 'logreg/login.html')
+
+@login_required(login_url='/login/')
+def log_out(request):
+    logout(request)
+    return redirect('login')
+
+def profil(request):
+    return render(request, 'profil/profil.html')
